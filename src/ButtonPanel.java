@@ -30,9 +30,10 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel() {
 
 		try 
-		{
-			s = new Socket("192.168.0.17", 5000);
-			dos = new DataOutputStream(s.getOutputStream());
+		{	
+			socket_singleton socket = socket_singleton.getSocketInstance();
+			s = socket.socket;
+			dos = socket.dataOut;
 
 			setLayout(new GridLayout(3, 3));
 			btnForward = new JButton("^");
@@ -131,7 +132,7 @@ public class ButtonPanel extends JPanel {
 				}
 
 			});
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
