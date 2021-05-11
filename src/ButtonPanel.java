@@ -1,4 +1,6 @@
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -6,11 +8,11 @@ import java.awt.event.MouseEvent;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 public class ButtonPanel extends JPanel {
 
@@ -21,8 +23,10 @@ public class ButtonPanel extends JPanel {
 	private JButton btnRight;
 	private JButton btnBackward;
 	private JButton btnShutDown;
+	private JLabel txtInfo;
 
 	private String currentAction = "stop";
+	private String messageFromRoberto = "[Insert info from Roberto]";
 
 	private Socket s;
 	private DataOutputStream dos;
@@ -31,28 +35,56 @@ public class ButtonPanel extends JPanel {
 
 		try 
 		{
-			s = new Socket("192.168.0.17", 5000);
-			dos = new DataOutputStream(s.getOutputStream());
+			btnForward = new JButton("🡅");
+			btnLeft = new JButton("🡄");
+			btnRight = new JButton("🡆");
+			btnBackward = new JButton("🡇");
+			btnShutDown = new JButton("Shutdown");
+			txtInfo = new JLabel(messageFromRoberto, JLabel.CENTER);
+			
+			setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(0,0,15,0);
+			c.gridx = 0;
+			c.gridy = 0;
+			c.gridwidth = 3;
+			add(txtInfo, c);
+			
+			c.fill = GridBagConstraints.NONE;
+			c.insets = new Insets(0,0,0,0);
+			c.gridwidth = 1;
+			c.ipadx = 30;
+			c.ipady = 30;
+			c.gridx = 1;
+			c.gridy = 1;
+			add(btnForward, c);
 
-			setLayout(new GridLayout(3, 3));
-			btnForward = new JButton("^");
-			btnLeft = new JButton("<");
-			btnRight = new JButton(">");
-			btnBackward = new JButton("v");
-			btnShutDown = new JButton("ShutDown");
-
-			add(new JLabel(""));
-			add(btnForward);
-			add(new JLabel(""));
-
-			add(btnLeft);
-			add(btnShutDown);
-			add(btnRight);
-
-			add(new JLabel(""));
-			add(btnBackward);
-			add(new JLabel(""));
-
+			c.gridx = 0;
+			c.gridy = 2;
+			c.anchor = GridBagConstraints.LINE_END;
+			add(btnLeft, c);
+			
+			c.gridx = 1;
+			c.gridy = 2;
+			c.anchor = GridBagConstraints.CENTER;
+			add(btnBackward, c);
+			
+			c.gridx = 2;
+			c.gridy = 2;
+			c.anchor = GridBagConstraints.LAST_LINE_START;
+			add(btnRight, c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.PAGE_END;
+			c.ipady = 0;
+			c.insets = new Insets(15,0,0,0);
+			c.gridwidth = 2;
+			c.gridx = 1;
+			c.gridy = 3;
+			add(btnShutDown, c);
+			
 			btnForward.addMouseListener(new MouseAdapter() {
 
 				@Override
@@ -131,7 +163,7 @@ public class ButtonPanel extends JPanel {
 				}
 
 			});
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
