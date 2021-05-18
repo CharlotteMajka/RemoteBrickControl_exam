@@ -3,15 +3,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 
 public class ButtonPanel extends JPanel {
@@ -28,17 +35,23 @@ public class ButtonPanel extends JPanel {
 	private String currentAction = "stop";
 	private String messageFromRoberto = "[Insert info from Roberto]";
 
-	private Socket s;
-	private DataOutputStream dos;
+	private String FORWARD = "forward";
+	private String BACKWARD = "backward";
+	private String TURNLEFT = "turnleft";
+	private String TURNRIGHT = "turnright";
+	
+	//private Socket s;
+	//private DataOutputStream dos;
+	//private DataInputStream dis;
 
 	public ButtonPanel() {
 
 		try 
 		{
-
-			socket_singleton socket = socket_singleton.getSocketInstance();
-			s = socket.socket;
-			dos = socket.dataOut;
+			//socket_singleton socket = socket_singleton.getSocketInstance();
+			//s = socket.socket;
+			//dos = socket.dataOut;
+			//dis = socket.dataIn;
 
 			btnForward = new JButton("🡅");
 			btnLeft = new JButton("🡄");
@@ -46,7 +59,23 @@ public class ButtonPanel extends JPanel {
 			btnBackward = new JButton("🡇");
 			btnShutDown = new JButton("Shutdown");
 			txtInfo = new JLabel(messageFromRoberto, JLabel.CENTER);
+			txtInfo.setFocusable(isFocusable());
 			
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed UP"), FORWARD);
+			txtInfo.getActionMap().put(FORWARD, new Command(FORWARD));
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released UP"), "stop");
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed DOWN"), BACKWARD);
+			txtInfo.getActionMap().put(BACKWARD, new Command(BACKWARD));
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released DOWN"), "stop");
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed LEFT"), TURNLEFT);
+			txtInfo.getActionMap().put(TURNLEFT, new Command(TURNLEFT));
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released LEFT"), "stop");
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed RIGHT"), TURNRIGHT);
+			txtInfo.getActionMap().put(TURNRIGHT, new Command(TURNRIGHT));
+			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released RIGHT"), "stop");
+			
+			txtInfo.getActionMap().put("stop", new Stop());
+		
 			setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			
@@ -166,19 +195,54 @@ public class ButtonPanel extends JPanel {
 					sendCommand("shutdown");
 					System.exit(0);
 				}
-
 			});
+
+
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void sendCommand(String command) {
-		try {
-			dos.writeUTF(command);
-			dos.flush();
-		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, ex.getMessage(), "RemoteEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
+		txtInfo.setText(command);
+//		try {
+//			dos.writeUTF(command);
+//			dos.flush();
+//		} catch (IOException ex) {
+//			JOptionPane.showMessageDialog(this, ex.getMessage(), "RemoteEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
+//		}
+	}
+
+	private class Command extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		String command; 
+		
+		Command(String command) {
+			this.command = command;
+			
 		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			txtInfo.setText(this.command);
+		}
+	}
+	
+	private class Stop extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			txtInfo.setText("STOP!");
+			
+		}
+		
 	}
 }
