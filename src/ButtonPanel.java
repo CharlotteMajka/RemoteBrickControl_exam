@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -26,6 +27,7 @@ public class ButtonPanel extends JPanel {
 
 	private Socket s;
 	private DataOutputStream dos;
+	private DataInputStream dis;
 
 	public ButtonPanel() {
 
@@ -34,6 +36,7 @@ public class ButtonPanel extends JPanel {
 			socket_singleton socket = socket_singleton.getSocketInstance();
 			s = socket.socket;
 			dos = socket.dataOut;
+			dis = socket.dataIn;
 
 			setLayout(new GridLayout(3, 3));
 			btnForward = new JButton("^");
