@@ -35,6 +35,11 @@ public class ButtonPanel extends JPanel {
 
 		try 
 		{
+
+			socket_singleton socket = socket_singleton.getSocketInstance();
+			s = socket.socket;
+			dos = socket.dataOut;
+
 			btnForward = new JButton("🡅");
 			btnLeft = new JButton("🡄");
 			btnRight = new JButton("🡆");
