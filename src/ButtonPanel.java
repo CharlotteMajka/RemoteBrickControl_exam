@@ -228,6 +228,8 @@ public class ButtonPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			txtInfo.setText(this.command);
+			currentAction = this.command;
+			sendCommand(this.command);
 		}
 	}
 	
@@ -241,6 +243,8 @@ public class ButtonPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			txtInfo.setText("STOP!");
+			currentAction = "stop";
+			sendCommand("stop");
 			
 		}
 		
