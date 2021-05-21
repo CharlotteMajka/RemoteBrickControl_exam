@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 
 public class ButtonPanel extends JPanel {
@@ -33,7 +35,7 @@ public class ButtonPanel extends JPanel {
 	private JLabel txtInfo;
 
 	private String currentAction = "stop";
-	private String messageFromRoberto = "[Insert info from Roberto]";
+	private String messageFromRoberto;
 
 	private String FORWARD = "forward";
 	private String BACKWARD = "backward";
@@ -52,7 +54,7 @@ public class ButtonPanel extends JPanel {
 			s = socket.socket;
 			dos = socket.dataOut;
 			dis = socket.dataIn;
-
+		
 			btnForward = new JButton("🡅");
 			btnLeft = new JButton("🡄");
 			btnRight = new JButton("🡆");
@@ -61,6 +63,7 @@ public class ButtonPanel extends JPanel {
 			txtInfo = new JLabel(messageFromRoberto, JLabel.CENTER);
 			txtInfo.setFocusable(isFocusable());
 			
+	
 			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed UP"), FORWARD);
 			txtInfo.getActionMap().put(FORWARD, new Command(FORWARD));
 			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released UP"), "stop");
@@ -75,7 +78,8 @@ public class ButtonPanel extends JPanel {
 			txtInfo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released RIGHT"), "stop");
 			
 			txtInfo.getActionMap().put("stop", new Stop());
-		
+			
+			
 			setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			
@@ -197,7 +201,24 @@ public class ButtonPanel extends JPanel {
 				}
 			});
 
+			//get info from brick/Datainputstream in separate thread
+            Thread readInfo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            String info = dis.readUTF();
+                            txtInfo.setText(info);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }) ;
 
+            readInfo.start();
+		
+		
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
 		}
@@ -247,4 +268,6 @@ public class ButtonPanel extends JPanel {
 		}
 		
 	}
+
+
 }
