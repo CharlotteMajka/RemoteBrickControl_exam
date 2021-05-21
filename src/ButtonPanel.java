@@ -40,18 +40,18 @@ public class ButtonPanel extends JPanel {
 	private String TURNLEFT = "turnleft";
 	private String TURNRIGHT = "turnright";
 	
-	//private Socket s;
-	//private DataOutputStream dos;
-	//private DataInputStream dis;
+	private Socket s;
+	private DataOutputStream dos;
+	private DataInputStream dis;
 
 	public ButtonPanel() {
 
 		try 
 		{
-			//socket_singleton socket = socket_singleton.getSocketInstance();
-			//s = socket.socket;
-			//dos = socket.dataOut;
-			//dis = socket.dataIn;
+			socket_singleton socket = socket_singleton.getSocketInstance();
+			s = socket.socket;
+			dos = socket.dataOut;
+			dis = socket.dataIn;
 
 			btnForward = new JButton("🡅");
 			btnLeft = new JButton("🡄");
@@ -204,13 +204,12 @@ public class ButtonPanel extends JPanel {
 	}
 
 	private void sendCommand(String command) {
-		txtInfo.setText(command);
-//		try {
-//			dos.writeUTF(command);
-//			dos.flush();
-//		} catch (IOException ex) {
-//			JOptionPane.showMessageDialog(this, ex.getMessage(), "RemoteEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
-//		}
+		try {
+			dos.writeUTF(command);
+			dos.flush();
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(this, ex.getMessage(), "RemoteEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private class Command extends AbstractAction {
@@ -227,7 +226,6 @@ public class ButtonPanel extends JPanel {
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			txtInfo.setText(this.command);
 			currentAction = this.command;
 			sendCommand(this.command);
 		}
