@@ -10,6 +10,7 @@ public class RemoteEV3Client {
 		frame.setLocationRelativeTo(null);
 		frame.add(new ButtonPanel());
 		frame.setVisible(true);
+
 	}
 
 }
