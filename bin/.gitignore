@@ -5,6 +5,14 @@
 /ButtonPanel$5.class
 /socket_singleton.class
 /ButtonPanel$6.class
+<<<<<<< Updated upstream
 /ButtonPanel$Action.class
 /ButtonPanel$Command.class
 /ButtonPanel$Stop.class
+=======
+/ButtonPanel$1.class
+/ButtonPanel$2.class
+/ButtonPanel$3.class
+/ButtonPanel$4.class
+/ButtonPanel$5.class
+>>>>>>> Stashed changes
