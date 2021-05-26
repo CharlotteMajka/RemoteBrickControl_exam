@@ -36,12 +36,18 @@ public class ButtonPanel extends JPanel {
 
 	private String currentAction = "stop";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	private String messageFromRoberto = "[Insert info from Roberto]";
 =======
+=======
+>>>>>>> Stashed changes
 	private String messageTitel = "Roberto says:";
 	private String messageFromRoberto = "Ready for adventure!";
 	private String stringCheckBatteryinfo = "Batteri";
 	private String batteryLevel = "Batteri niveau: Okay";
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 	
