@@ -16,9 +16,9 @@ public class socket_singleton {
 	
 	private socket_singleton() throws Exception {
 	
-		//socket =  new Socket("192.168.0.12", 5000);
-		//dataIn = new DataInputStream(socket.getInputStream());	
-		//dataOut = new DataOutputStream(socket.getOutputStream());
+		socket =  new Socket("192.168.0.12", 5000);
+		dataIn = new DataInputStream(socket.getInputStream());	
+		dataOut = new DataOutputStream(socket.getOutputStream());
 		
 
 	}
