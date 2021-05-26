@@ -35,21 +35,11 @@ public class ButtonPanel extends JPanel {
 	private JLabel batteryInfo;
 
 	private String currentAction = "stop";
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-	private String messageFromRoberto = "[Insert info from Roberto]";
-=======
-=======
->>>>>>> Stashed changes
+
 	private String messageTitel = "Roberto says:";
 	private String messageFromRoberto = "Ready for adventure!";
 	private String stringCheckBatteryinfo = "Batteri";
 	private String batteryLevel = "Batteri niveau: Okay";
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
 	
 	private String FORWARD = "forward";
 	private String BACKWARD = "backward";
@@ -226,8 +216,7 @@ public class ButtonPanel extends JPanel {
 				}
 			});
 
-<<<<<<< Updated upstream
-=======
+
 			//get info from brick/Datainputstream in separate thread
             Thread readInfo = new Thread(new Runnable() {
                 @Override
@@ -247,7 +236,6 @@ public class ButtonPanel extends JPanel {
                     }
                 }
             }) ;
->>>>>>> Stashed changes
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
