@@ -144,12 +144,14 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "forward")
 						return;
-					new Command(FORWARD);
+					sendCommand("forward");
+					currentAction = "forward";
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					new Stop();
+					currentAction = "stop";
+					sendCommand("stop");
 				}
 
 			});
@@ -159,12 +161,15 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "turnleft")
 						return;
-					new Command(TURNLEFT);
+					sendCommand("turnleft");
+					currentAction = "turnleft";
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					new Stop();				}
+					currentAction = "stop";
+					sendCommand("stop");
+				}
 			});
 
 			btnRight.addMouseListener(new MouseAdapter() {
@@ -172,12 +177,14 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "turnright")
 						return;
-					new Command(TURNRIGHT);
+					sendCommand("turnright");
+					currentAction = "turnright";
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					new Stop();	
+					currentAction = "stop";
+					sendCommand("stop");
 				}
 			});
 
@@ -186,12 +193,14 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "backward")
 						return;
-					new Command(BACKWARD);
+					sendCommand("backward");
+					currentAction = "backward";
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					new Stop();
+					currentAction = "stop";
+					sendCommand("stop");
 				}
 			});
 
