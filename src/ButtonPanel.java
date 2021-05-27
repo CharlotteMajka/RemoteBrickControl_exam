@@ -3,8 +3,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
@@ -19,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 
 public class ButtonPanel extends JPanel {
@@ -32,10 +28,16 @@ public class ButtonPanel extends JPanel {
 	private JButton btnRight;
 	private JButton btnBackward;
 	private JButton btnShutDown;
+	private JLabel txtInfoTitel;
 	private JLabel txtInfo;
+	private JLabel batteryInfo;
 
 	private String currentAction = "stop";
-	private String messageFromRoberto;
+
+	private String messageTitel = "Roberto says:";
+	private String messageFromRoberto = "Ready for adventure!";
+	private String stringCheckBatteryinfo = "Batteri";
+	private String batteryLevel = "Batteri niveau: ?▮▮▮?";
 
 	private String FORWARD = "forward";
 	private String BACKWARD = "backward";
@@ -60,6 +62,8 @@ public class ButtonPanel extends JPanel {
 			btnRight = new JButton("🡆");
 			btnBackward = new JButton("🡇");
 			btnShutDown = new JButton("Shutdown");
+			batteryInfo = new JLabel(batteryLevel, JLabel.LEFT);
+			txtInfoTitel = new JLabel(messageTitel, JLabel.LEFT);
 			txtInfo = new JLabel(messageFromRoberto, JLabel.CENTER);
 			txtInfo.setFocusable(isFocusable());
 			
@@ -84,9 +88,15 @@ public class ButtonPanel extends JPanel {
 			GridBagConstraints c = new GridBagConstraints();
 			
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.insets = new Insets(0,0,15,0);
 			c.gridx = 0;
 			c.gridy = 0;
+			c.gridwidth = 3;
+			add(txtInfoTitel, c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(0,0,15,0);
+			c.gridx = 0;
+			c.gridy = 1;
 			c.gridwidth = 3;
 			add(txtInfo, c);
 			
@@ -96,31 +106,36 @@ public class ButtonPanel extends JPanel {
 			c.ipadx = 30;
 			c.ipady = 30;
 			c.gridx = 1;
-			c.gridy = 1;
+			c.gridy = 2;
 			add(btnForward, c);
 
 			c.gridx = 0;
-			c.gridy = 2;
+			c.gridy = 3;
 			c.anchor = GridBagConstraints.LINE_END;
 			add(btnLeft, c);
 			
 			c.gridx = 1;
-			c.gridy = 2;
+			c.gridy = 3;
 			c.anchor = GridBagConstraints.CENTER;
 			add(btnBackward, c);
 			
 			c.gridx = 2;
-			c.gridy = 2;
+			c.gridy = 3;
 			c.anchor = GridBagConstraints.LAST_LINE_START;
 			add(btnRight, c);
 			
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.anchor = GridBagConstraints.PAGE_END;
+			c.anchor = GridBagConstraints.CENTER;
+			c.gridx = 0;
+			c.gridy = 4;
+			c.gridwidth = 3;
+			add(batteryInfo, c);
+
 			c.ipady = 0;
 			c.insets = new Insets(15,0,0,0);
 			c.gridwidth = 2;
 			c.gridx = 1;
-			c.gridy = 3;
+			c.gridy = 5;
 			add(btnShutDown, c);
 			
 			btnForward.addMouseListener(new MouseAdapter() {
@@ -208,7 +223,12 @@ public class ButtonPanel extends JPanel {
                     while (true) {
                         try {
                             String info = dis.readUTF();
-                            txtInfo.setText(info);
+                            if (info.toLowerCase().contains(stringCheckBatteryinfo.toLowerCase()))
+                            {
+                            	batteryInfo.setText(info);
+                            } else {
+                            	txtInfo.setText(info); 
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
