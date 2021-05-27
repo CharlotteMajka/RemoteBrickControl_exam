@@ -39,7 +39,7 @@ public class ButtonPanel extends JPanel {
 	private String messageTitel = "Roberto says:";
 	private String messageFromRoberto = "Ready for adventure!";
 	private String stringCheckBatteryinfo = "Batteri";
-	private String batteryLevel = "Batteri niveau: Okay";
+	private String batteryLevel = "Batteri niveau: ?▮▮▮?";
 	
 	private String FORWARD = "forward";
 	private String BACKWARD = "backward";
@@ -144,15 +144,12 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "forward")
 						return;
-					sendCommand("forward");
-					currentAction = "forward";
+					new Command(FORWARD);
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					currentAction = "stop";
-					sendCommand("stop");
-					currentAction = "stop";
+					new Stop();
 				}
 
 			});
@@ -162,15 +159,12 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "turnleft")
 						return;
-					sendCommand("turnleft");
-					currentAction = "turnleft";
+					new Command(TURNLEFT);
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					currentAction = "stop";
-					sendCommand("stop");
-				}
+					new Stop();				}
 			});
 
 			btnRight.addMouseListener(new MouseAdapter() {
@@ -178,15 +172,12 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "turnright")
 						return;
-					sendCommand("turnright");
-					currentAction = "turnright";
+					new Command(TURNRIGHT);
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					currentAction = "stop";
-					sendCommand("stop");
-					currentAction = "stop";
+					new Stop();	
 				}
 			});
 
@@ -195,15 +186,12 @@ public class ButtonPanel extends JPanel {
 				public void mousePressed(MouseEvent e) {
 					if (currentAction == "backward")
 						return;
-					sendCommand("backward");
-					currentAction = "backward";
+					new Command(BACKWARD);
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					currentAction = "stop";
-					sendCommand("stop");
-					currentAction = "stop";
+					new Stop();
 				}
 			});
 
@@ -236,6 +224,8 @@ public class ButtonPanel extends JPanel {
                     }
                 }
             }) ;
+            
+            readInfo.run();
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "RemoveEV3Client - ERROR", JOptionPane.ERROR_MESSAGE);
@@ -279,7 +269,6 @@ public class ButtonPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			txtInfo.setText("STOP!");
 			currentAction = "stop";
 			sendCommand("stop");
 			
