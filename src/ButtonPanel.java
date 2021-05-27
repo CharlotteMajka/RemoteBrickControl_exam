@@ -223,10 +223,15 @@ public class ButtonPanel extends JPanel {
                     while (true) {
                         try {
                             String info = dis.readUTF();
+                            if(info.contentEquals("SHUTDOWN"))
+                            {
+                            	System.exit(0);
+                            }
                             if (info.toLowerCase().contains(stringCheckBatteryinfo.toLowerCase()))
                             {
                             	batteryInfo.setText(info);
-                            } else {
+                            } 
+                            else {
                             	txtInfo.setText(info); 
                             }
                         } catch (IOException e) {
@@ -281,7 +286,6 @@ public class ButtonPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			txtInfo.setText("STOP!");
 			currentAction = "stop";
 			sendCommand("stop");
 			
