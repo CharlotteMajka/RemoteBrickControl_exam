@@ -34,10 +34,10 @@ public class ButtonPanel extends JPanel {
 
 	private String currentAction = "stop";
 
-	private String messageTitel = "Roberto says:";
-	private String messageFromRoberto = "Ready for adventure!";
-	private String stringCheckBatteryinfo = "Battery";
-	private String batteryLevel = "Battery level: ?▮▮▯?";
+	private String messageTitel = "Roberto siger:";
+	private String messageFromRoberto = "Klar til eventyr!";
+	private String stringCheckBatteryinfo = "Batteri";
+	private String batteryLevel = "Batteri: ?▮▮▯?";
 
 	private String FORWARD = "forward";
 	private String BACKWARD = "backward";
